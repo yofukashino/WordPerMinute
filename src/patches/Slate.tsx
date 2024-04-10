@@ -22,7 +22,6 @@ export default (): void => {
       if (
         (!channel.isDM() &&
           !channel.isGroupDM() &&
-          !channel.isMultiUserDM() &&
           !PermissionStore.canBasicChannel(DiscordConstants.Permissions.SEND_MESSAGES, channel)) ||
         !container ||
         container?.props?.children.some((c) => c?.key === "wpm")
