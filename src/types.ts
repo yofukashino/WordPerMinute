@@ -1,39 +1,56 @@
 import { types } from "replugged";
+import GeneralDiscordTypes from "discord-types/general";
 import type util from "replugged/util";
+import type { Store } from "replugged/dist/renderer/modules/common/flux";
 
 export namespace Types {
   export import DefaultTypes = types;
+  export type Channel = GeneralDiscordTypes.Channel;
   export type UtilTree = util.Tree;
-  export type ReactTree = util.Tree & React.ReactElement;
-  export type Jsonifiable =
-    | null
-    | undefined
-    | boolean
-    | number
-    | string
-    | Jsonifiable[]
-    | { [key: string]: Jsonifiable };
-  export type ValType<T> =
-    | T
-    | React.ChangeEvent<HTMLInputElement>
-    | (Record<string, unknown> & { value?: T; checked?: T });
-
-  export type NestedType<T, P> = P extends `${infer Left}.${infer Right}`
-    ? Left extends keyof T
-      ? NestedType<T[Left], Right>
-      : Left extends `${infer FieldKey}[${infer IndexKey}]`
-      ? FieldKey extends keyof T
-        ? NestedType<Exclude<T[FieldKey], undefined> extends infer U ? U : never, IndexKey>
-        : undefined
-      : undefined
-    : P extends keyof T
-    ? T[P]
-    : P extends `${infer FieldKey}`
-    ? FieldKey extends keyof T
-      ? Exclude<T[FieldKey], undefined> extends infer U
-        ? U
-        : never
-      : undefined
-    : undefined;
+  export type ReactTree = UtilTree & React.ReactElement;
+  export interface Slate {
+    $$typeof: symbol;
+    compare: null;
+    type: { $$typeof: symbol; render: DefaultTypes.AnyFunction };
+  }
+  export interface SlateArgs {
+    accessibilityLabel: string;
+    channel: Channel;
+    className: string;
+    focused: boolean;
+    highlighted: boolean;
+    onBlur: DefaultTypes.AnyFunction;
+    onChange: DefaultTypes.AnyFunction;
+    onFocus: DefaultTypes.AnyFunction;
+    onKeyDown: DefaultTypes.AnyFunction;
+    onResize: undefined | DefaultTypes.AnyFunction;
+    onSubmit: DefaultTypes.AnyFunction;
+    pendingReply: undefined | string;
+    placeholder: string;
+    promptToUpload: DefaultTypes.AnyFunction;
+    renderApplicationCommandIcon: DefaultTypes.AnyFunction;
+    renderAttachButton: DefaultTypes.AnyFunction;
+    richValue: [];
+    setEditorRef: DefaultTypes.AnyFunction;
+    textValue: string;
+  }
+  export interface PermissionStore extends Store {
+    can: DefaultTypes.AnyFunction;
+    canAccessGuildSettings: DefaultTypes.AnyFunction;
+    canBasicChannel: DefaultTypes.AnyFunction;
+    canImpersonateRole: DefaultTypes.AnyFunction;
+    canManageUser: DefaultTypes.AnyFunction;
+    canWithPartialContext: DefaultTypes.AnyFunction;
+    computePermissions: DefaultTypes.AnyFunction;
+    getChannelPermissions: DefaultTypes.AnyFunction;
+    getChannelsVersion: DefaultTypes.AnyFunction;
+    getGuildPermissionProps: DefaultTypes.AnyFunction;
+    getPermissionUtils: DefaultTypes.AnyFunction;
+    getGuildVersion: DefaultTypes.AnyFunction;
+    getHighestRole: DefaultTypes.AnyFunction;
+    initialize: DefaultTypes.AnyFunction;
+    isRoleHigher: DefaultTypes.AnyFunction;
+    clearVars: DefaultTypes.AnyFunction;
+  }
 }
 export default Types;
