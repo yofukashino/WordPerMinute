@@ -9,8 +9,6 @@ export default (): void => {
     Slate.type,
     "render",
     ([{ textValue: text, channel }]: [Types.SlateArgs], res: Types.ReactTree) => {
-      if (!PermissionStore.canBasicChannel(DiscordConstants.Permissions.SEND_MESSAGES, channel))
-        return res;
       const container = util.findInReactTree(
         res,
         (c: Types.ReactTree) =>
@@ -20,7 +18,16 @@ export default (): void => {
       React.useEffect(() => {
         setTextValue(text);
       }, [text]);
-      if (!container || container?.props?.children.some((c) => c?.key === "wpm")) return res;
+
+      if (
+        (!channel.isDM() &&
+          !channel.isGroupDM() &&
+          !channel.isMultiUserDM() &&
+          !PermissionStore.canBasicChannel(DiscordConstants.Permissions.SEND_MESSAGES, channel)) ||
+        !container ||
+        container?.props?.children.some((c) => c?.key === "wpm")
+      )
+        return res;
       container?.props?.children.push(<WPMCounter textValue={textValue} key="wpm" />);
       return res;
     },
