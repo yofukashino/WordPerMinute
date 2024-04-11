@@ -52,5 +52,31 @@ export namespace Types {
     isRoleHigher: DefaultTypes.AnyFunction;
     clearVars: DefaultTypes.AnyFunction;
   }
+  export interface ChatClasses {
+    avatar: string;
+    channelName: string;
+    channelTextArea: string;
+    chat: string;
+    chatContent: string;
+    content: string;
+    cursorPointer: string;
+    editPartyIcon: string;
+    followButton: string;
+    form: string;
+    forumPostTitle: string;
+    guildBreadcrumbContainer: string;
+    guildBreadcrumbIcon: string;
+    loader: string;
+    noChat: string;
+    parentChannelName: string;
+    status: string;
+    subtitleContainer: string;
+    threadSidebarFloating: string;
+    threadSidebarOpen: string;
+    title: string;
+    titleWrapper: string;
+    typing: string;
+    uploadArea: string;
+  }
 }
 export default Types;

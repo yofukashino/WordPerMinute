@@ -4,3 +4,5 @@ import Types from "../types";
 export const Slate = webpack.getBySource<Types.Slate>("chat input type must be set");
 
 export const PermissionStore = webpack.getByStoreName<Types.PermissionStore>("PermissionStore");
+
+export const ChatClasses = webpack.getByProps<Types.ChatClasses>("chatContent", "chat");
