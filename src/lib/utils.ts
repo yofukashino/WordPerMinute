@@ -17,7 +17,7 @@ export const forceRerenderElement = async (selector: string): Promise<void> => {
 };
 
 export const forceRerenderChat = (): void => {
-  void forceRerenderElement(ChatClasses.chatContent);
+  void forceRerenderElement(`.${ChatClasses.chatContent}`);
 };
 
 export default { ...util, forceRerenderElement, forceRerenderChat };
