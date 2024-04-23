@@ -7,7 +7,7 @@
     "name": "Ahlawat",
     "github": "YofukashiNo"
   },
-  "version": "1.0.3",
+  "version": "1.0.4",
   "updater": {
     "id": "dev.yofukashino.WordPerMinute",
     "type": "store"
