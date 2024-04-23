@@ -1,10 +1,14 @@
 import { React } from "replugged/common";
 import { Text } from "replugged/components";
 export default ({ textValue }: { textValue: string }) => {
+  const [initialText, setInitialText] = React.useState<string>("");
   const [wpm, setWPM] = React.useState(0);
   const [startTime, setStartTime] = React.useState<number | null>(null);
   const updateWPM = () => {
-    const words = textValue.split(" ").filter((word) => word !== "" && word !== " ");
+    const words = textValue
+      .replace(initialText, "")
+      .split(" ")
+      .filter((word) => word !== "" && word !== " ");
     const elapsedTime = (new Date().getTime() - startTime) / 1000 / 60;
     const currentWPM = words.length / elapsedTime;
 
@@ -12,6 +16,7 @@ export default ({ textValue }: { textValue: string }) => {
   };
   React.useEffect(() => {
     if (textValue.trim().length > 0 && !startTime) {
+      setInitialText(textValue);
       setStartTime(new Date().getTime() - 1000);
     }
 

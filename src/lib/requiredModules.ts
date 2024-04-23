@@ -1,8 +1,14 @@
 import { webpack } from "replugged";
 import Types from "../types";
 
-export const Slate = webpack.getBySource<Types.Slate>("chat input type must be set");
+export const Modules: Types.Modules = {};
 
-export const PermissionStore = webpack.getByStoreName<Types.PermissionStore>("PermissionStore");
+Modules.loadModules = async (): Promise<void> => {
+  Modules.Slate ??= await webpack.waitForModule<Types.Slate>(
+    webpack.filters.bySource("chat input type must be set"),
+  );
+  Modules.PermissionStore = webpack.getByStoreName<Types.PermissionStore>("PermissionStore");
+  Modules.ChatClasses ??= await webpack.waitForProps<Types.ChatClasses>("chatContent", "chat");
+};
 
-export const ChatClasses = webpack.getByProps<Types.ChatClasses>("chatContent", "chat");
+export default Modules;

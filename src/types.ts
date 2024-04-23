@@ -78,5 +78,11 @@ export namespace Types {
     typing: string;
     uploadArea: string;
   }
+  export interface Modules {
+    loadModules?: () => Promise<void>;
+    Slate?: Slate;
+    PermissionStore?: PermissionStore;
+    ChatClasses?: ChatClasses;
+  }
 }
 export default Types;

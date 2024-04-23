@@ -1,12 +1,12 @@
 import { util } from "replugged";
 import { constants as DiscordConstants, React } from "replugged/common";
 import { PluginInjector } from "../index";
-import { PermissionStore, Slate } from "../lib/requiredModules";
+import Modules from "../lib/requiredModules";
 import Types from "../types";
 import WPMCounter from "../Components/WPMCounter";
 export default (): void => {
   PluginInjector.after(
-    Slate.type,
+    Modules.Slate.type,
     "render",
     ([{ textValue: text, channel }]: [Types.SlateArgs], res: Types.ReactTree) => {
       const container = util.findInReactTree(
@@ -24,7 +24,10 @@ export default (): void => {
           Boolean(
             channel.isDM() ||
               channel.isGroupDM() ||
-              PermissionStore.canBasicChannel(DiscordConstants.Permissions.SEND_MESSAGES, channel),
+              Modules.PermissionStore.canBasicChannel(
+                DiscordConstants.Permissions.SEND_MESSAGES,
+                channel,
+              ),
           ),
         );
       }, [channel.id]);

@@ -1,6 +1,6 @@
 import { util } from "replugged";
 import { PluginInjector, PluginLogger } from "../index";
-import { ChatClasses } from "./requiredModules";
+import Modules from "./requiredModules";
 export const forceRerenderElement = async (selector: string): Promise<void> => {
   try {
     const element = await util.waitFor(selector);
@@ -17,7 +17,7 @@ export const forceRerenderElement = async (selector: string): Promise<void> => {
 };
 
 export const forceRerenderChat = (): void => {
-  void forceRerenderElement(`.${ChatClasses.chatContent}`);
+  void forceRerenderElement(`.${Modules.ChatClasses?.chatContent}`);
 };
 
 export default { ...util, forceRerenderElement, forceRerenderChat };
