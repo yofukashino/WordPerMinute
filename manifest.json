@@ -4,7 +4,7 @@
   "description": "Shows realtime WPM over channel text area.",
   "author": {
     "discordID": "1121961711080050780",
-    "name": "Ahlawat",
+    "name": "Nanakusa",
     "github": "YofukashiNo"
   },
   "version": "1.0.4",
@@ -16,7 +16,5 @@
   "type": "replugged-plugin",
   "renderer": "src/index.ts",
   "source": "https://github.com/YofukashiNo/WordPerMinute",
-  "image": [
-    "https://i.imgur.com/JisfVyz.png"
-  ]
+  "image": "https://i.imgur.com/JisfVyz.png"
 }
