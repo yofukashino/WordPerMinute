@@ -1,6 +1,6 @@
 {
   "name": "word-per-minute",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Shows realtime WPM over channel text area.",
   "engines": {
     "node": ">=20.0.0",
