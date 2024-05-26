@@ -9,6 +9,6 @@
   top: -28px;
 }
 
-[class*="channelTextArea"]:not(:has(.focus-visible)) .wpm-counter {
+.wpm-counter:not(.wpm-areaFocused) {
   display: none;
 }

@@ -1,6 +1,6 @@
 import { React } from "replugged/common";
 import { Text } from "replugged/components";
-export default ({ textValue }: { textValue: string }) => {
+export default ({ textValue, focused }: { textValue: string; focused: boolean }) => {
   const [initialText, setInitialText] = React.useState<string>("");
   const [wpm, setWPM] = React.useState(0);
   const [startTime, setStartTime] = React.useState<number | null>(null);
@@ -41,7 +41,7 @@ export default ({ textValue }: { textValue: string }) => {
     };
   }, [textValue, startTime]);
   return (
-    <div className="wpm-counter">
+    <div className={["wpm-counter", focused && "wpm-areaFocused"].filter(Boolean).join(" ")}>
       <Text.Eyebrow>WPM: {isFinite(wpm) ? Math.floor(wpm) : 0}</Text.Eyebrow>
     </div>
   );

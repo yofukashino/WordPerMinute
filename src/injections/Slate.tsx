@@ -8,7 +8,7 @@ export default (): void => {
   PluginInjector.after(
     Modules.Slate.type,
     "render",
-    ([{ textValue: text, channel }]: [Types.SlateArgs], res: Types.ReactTree) => {
+    ([{ focused, textValue: text, channel }]: [Types.SlateArgs], res: Types.ReactTree) => {
       const container = util.findInReactTree(
         res,
         (c: Types.ReactTree) =>
@@ -33,7 +33,9 @@ export default (): void => {
       }, [channel.id]);
       if (!shouldShow || !container || container?.props?.children.some((c) => c?.key === "wpm"))
         return res;
-      container?.props?.children.push(<WPMCounter textValue={textValue} key="wpm" />);
+      container?.props?.children.push(
+        <WPMCounter textValue={textValue} key="wpm" focused={focused} />,
+      );
       return res;
     },
   );
