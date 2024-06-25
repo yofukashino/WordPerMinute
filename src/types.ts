@@ -8,31 +8,12 @@ export namespace Types {
   export type Channel = GeneralDiscordTypes.Channel;
   export type UtilTree = util.Tree;
   export type ReactTree = UtilTree & React.ReactElement;
-  export interface Slate {
-    $$typeof: symbol;
-    compare: null;
-    type: { $$typeof: symbol; render: DefaultTypes.AnyFunction };
-  }
-  export interface SlateArgs {
-    accessibilityLabel: string;
-    channel: Channel;
-    className: string;
-    focused: boolean;
-    highlighted: boolean;
-    onBlur: DefaultTypes.AnyFunction;
-    onChange: DefaultTypes.AnyFunction;
-    onFocus: DefaultTypes.AnyFunction;
-    onKeyDown: DefaultTypes.AnyFunction;
-    onResize: undefined | DefaultTypes.AnyFunction;
-    onSubmit: DefaultTypes.AnyFunction;
-    pendingReply: undefined | string;
-    placeholder: string;
-    promptToUpload: DefaultTypes.AnyFunction;
-    renderApplicationCommandIcon: DefaultTypes.AnyFunction;
-    renderAttachButton: DefaultTypes.AnyFunction;
-    richValue: [];
-    setEditorRef: DefaultTypes.AnyFunction;
-    textValue: string;
+  export interface DraftStore extends Store {
+    getDraft: DefaultTypes.AnyFunction;
+    getRecentlyEditedDrafts: DefaultTypes.AnyFunction;
+    getState: DefaultTypes.AnyFunction;
+    getThreadDraftWithParentMessageId: DefaultTypes.AnyFunction;
+    getThreadSettings: DefaultTypes.AnyFunction;
   }
   export interface PermissionStore extends Store {
     can: DefaultTypes.AnyFunction;
@@ -52,37 +33,11 @@ export namespace Types {
     isRoleHigher: DefaultTypes.AnyFunction;
     clearVars: DefaultTypes.AnyFunction;
   }
-  export interface ChatClasses {
-    avatar: string;
-    channelName: string;
-    channelTextArea: string;
-    chat: string;
-    chatContent: string;
-    content: string;
-    cursorPointer: string;
-    editPartyIcon: string;
-    followButton: string;
-    form: string;
-    forumPostTitle: string;
-    guildBreadcrumbContainer: string;
-    guildBreadcrumbIcon: string;
-    loader: string;
-    noChat: string;
-    parentChannelName: string;
-    status: string;
-    subtitleContainer: string;
-    threadSidebarFloating: string;
-    threadSidebarOpen: string;
-    title: string;
-    titleWrapper: string;
-    typing: string;
-    uploadArea: string;
-  }
+
   export interface Modules {
     loadModules?: () => Promise<void>;
-    Slate?: Slate;
+    DraftStore?: DraftStore;
     PermissionStore?: PermissionStore;
-    ChatClasses?: ChatClasses;
   }
 }
 export default Types;

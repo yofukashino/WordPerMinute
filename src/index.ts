@@ -1,13 +1,10 @@
-import { Injector, Logger } from "replugged";
+import { Logger } from "replugged";
 import "./style.css";
-export const PluginInjector = new Injector();
 export const PluginLogger = Logger.plugin("WordPerMinute", "#b380ff");
-import Injections from "./injections/index";
+import Modules from "./lib/requiredModules";
 
 export const start = (): void => {
-  void Injections.applyInjections();
+  Modules.loadModules();
 };
 
-export const stop = (): void => {
-  Injections.removeInjection();
-};
+export { default as _WPM } from "./Components/WPM";

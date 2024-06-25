@@ -1,14 +1,11 @@
 .wpm-counter {
-  z-index: 1;
-  display: inline-block;
+  margin-top: 5px;
+  margin-right: 5px;
+  flex-basis: fit-content;
   position: absolute;
-  background-color: #00000050;
-  border-radius: 10px;
-  padding: 4.5px;
-  right: 15px;
-  top: -28px;
+  right: 0px;
 }
 
-.wpm-counter:not(.wpm-areaFocused) {
-  display: none;
+div:has(+ .wpm-counter) {
+  margin-right: 55px;
 }
