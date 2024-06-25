@@ -35,7 +35,7 @@ export namespace Types {
   }
 
   export interface Modules {
-    loadModules?: () => Promise<void>;
+    loadModules?: () => void;
     DraftStore?: DraftStore;
     PermissionStore?: PermissionStore;
   }
