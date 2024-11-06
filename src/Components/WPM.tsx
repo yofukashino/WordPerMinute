@@ -15,6 +15,7 @@ export const WordsPerMinute = React.memo(({ channel }: { channel: Types.Channel 
   const [wpm, setWPM] = React.useState(0);
   const [startTime, setStartTime] = React.useState<number | null>(() => null);
   const updateTextValue = React.useCallback((dispatch) => {
+    console.log(dispatch);
     if (dispatch.channelId === channel.id && dispatch.draftType === 0) setTextValue(dispatch.draft);
   }, []);
   const updateWPM = () => {
@@ -27,9 +28,9 @@ export const WordsPerMinute = React.memo(({ channel }: { channel: Types.Channel 
     setWPM(isFinite(currentWPM) ? Math.floor(currentWPM) : 0);
   };
   React.useEffect(() => {
-    FluxDispatcher.subscribe("DRAFT_CHANGE", updateTextValue);
+    FluxDispatcher.subscribe("DRAFT_SAVE", updateTextValue);
     return () => {
-      FluxDispatcher.unsubscribe("DRAFT_CHANGE", updateTextValue);
+      FluxDispatcher.unsubscribe("DRAFT_SAVE", updateTextValue);
     };
   });
 
@@ -37,12 +38,10 @@ export const WordsPerMinute = React.memo(({ channel }: { channel: Types.Channel 
     if (TextValue.trim().length > 0 && !startTime) {
       setInitialText(TextValue);
       setStartTime(new Date().getTime() - 1000);
-    }
-    if (TextValue.trim().length === 0 && startTime) {
+    } else if (TextValue.trim().length === 0 && startTime) {
       setStartTime(null);
       setWPM(0);
-    }
-    if (startTime != null) {
+    } else if (startTime != null) {
       updateWPM();
     }
     const interval = setInterval(() => {
