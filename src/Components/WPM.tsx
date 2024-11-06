@@ -27,8 +27,10 @@ export const WordsPerMinute = React.memo(({ channel }: { channel: Types.Channel 
     setWPM(isFinite(currentWPM) ? Math.floor(currentWPM) : 0);
   };
   React.useEffect(() => {
+    FluxDispatcher.subscribe("DRAFT_CHANGE", updateTextValue);
     FluxDispatcher.subscribe("DRAFT_SAVE", updateTextValue);
     return () => {
+      FluxDispatcher.unsubscribe("DRAFT_CHANGE", updateTextValue);
       FluxDispatcher.unsubscribe("DRAFT_SAVE", updateTextValue);
     };
   });
