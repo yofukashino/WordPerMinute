@@ -2,7 +2,7 @@ import Types from "./types";
 
 export default [
   {
-    find: ".Messages.SEVERAL_USERS_TYPING",
+    find: "this.getCooldownTextStyle()",
     replacements: [
       {
         match: /(channelId:.\.id}\))]/,
@@ -11,7 +11,7 @@ export default [
       },
       {
         match: /\((0===.\.length)/,
-        replace: (_: string, suffix: string) => `(!true&&${suffix}`,
+        replace: (_: string, suffix: string) => `(!this?.props?.channel?.id&&${suffix}`,
       },
     ],
   },
