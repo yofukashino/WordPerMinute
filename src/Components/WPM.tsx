@@ -15,7 +15,6 @@ export const WordsPerMinute = React.memo(({ channel }: { channel: Types.Channel 
   const [wpm, setWPM] = React.useState(0);
   const [startTime, setStartTime] = React.useState<number | null>(() => null);
   const updateTextValue = React.useCallback((dispatch) => {
-    console.log(dispatch);
     if (dispatch.channelId === channel.id && dispatch.draftType === 0) setTextValue(dispatch.draft);
   }, []);
   const updateWPM = () => {
