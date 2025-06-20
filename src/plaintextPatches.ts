@@ -2,7 +2,7 @@ import Types from "./types";
 
 export default [
   {
-    find: '"TypingUsers"',
+    find: ".typingDots,",
     replacements: [
       {
         match: /(channelId:.\.id}\))]/,
