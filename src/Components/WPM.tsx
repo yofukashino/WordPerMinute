@@ -1,6 +1,6 @@
-import { constants, fluxDispatcher, React } from "replugged/common";
+import { React, constants, fluxDispatcher } from "replugged/common";
 import { Text } from "replugged/components";
-import { PermissionStore, DraftStore } from "@lib/RequiredModules";
+import { DraftStore, PermissionStore } from "@lib/RequiredModules";
 
 import type Types from "@Types";
 
@@ -12,7 +12,7 @@ export const WordsPerMinute = React.memo(({ channel }: { channel: Types.Channel 
   const [wpm, setWPM] = React.useState<number>(0);
 
   const updateTextValue: Types.ActionHandler = React.useCallback(
-    ({ channelId, draftType, draft }) => {
+    ({ channelId, draftType, draft }: { channelId: string; draftType: number; draft: string }) => {
       if (channelId === channel.id && draftType === 0) setTextValue(draft);
     },
     [],
@@ -85,4 +85,4 @@ export const _WPM = (
   props: {
     channel: Types.Channel;
   } & Record<string, unknown>,
-) => <WordsPerMinute {...props} />;
+): React.ReactElement => <WordsPerMinute {...props} />;
