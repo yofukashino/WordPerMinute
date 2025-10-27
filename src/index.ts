@@ -1,10 +1,11 @@
 import { Logger } from "replugged";
+import Modules from "@lib/RequiredModules";
 import "./style.css";
-export const PluginLogger = Logger.plugin("WordPerMinute", "#b380ff");
-import Modules from "./lib/requiredModules";
+
+export const PluginLogger = Logger.plugin("WordPerMinute", "#ffffff80");
 
 export const start = (): void => {
-  Modules.loadModules();
+  void Modules.loadModules().catch((err: unknown) => PluginLogger.error(err));
 };
 
-export { default as _WPM } from "./Components/WPM";
+export { _WPM } from "@components/WPM";

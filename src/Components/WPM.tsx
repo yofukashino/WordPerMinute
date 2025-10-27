@@ -1,87 +1,88 @@
-import {
-  constants as DiscordConstants,
-  fluxDispatcher as FluxDispatcher,
-  React,
-} from "replugged/common";
+import { constants, fluxDispatcher, React } from "replugged/common";
 import { Text } from "replugged/components";
-import Modules from "../lib/requiredModules";
-import Types from "../types";
+import { PermissionStore, DraftStore } from "@lib/RequiredModules";
+
+import type Types from "@Types";
+
 export const WordsPerMinute = React.memo(({ channel }: { channel: Types.Channel }) => {
-  const [TextValue, setTextValue] = React.useState(
-    Modules.DraftStore.getDraft(channel.id, 0) as string,
+  const [TextValue, setTextValue] = React.useState<string>(DraftStore.getDraft?.(channel.id, 0));
+  const [initialText, setInitialText] = React.useState<string>("");
+  const [shouldShow, setShouldShow] = React.useState<boolean>(false);
+  const [startTime, setStartTime] = React.useState<number | null>(null);
+  const [wpm, setWPM] = React.useState<number>(0);
+
+  const updateTextValue: Types.ActionHandler = React.useCallback(
+    ({ channelId, draftType, draft }) => {
+      if (channelId === channel.id && draftType === 0) setTextValue(draft);
+    },
+    [],
   );
-  const [shouldShow, setShouldShow] = React.useState(() => false);
-  const [initialText, setInitialText] = React.useState<string>(() => "");
-  const [wpm, setWPM] = React.useState(0);
-  const [startTime, setStartTime] = React.useState<number | null>(() => null);
-  const updateTextValue = React.useCallback((dispatch) => {
-    if (dispatch.channelId === channel.id && dispatch.draftType === 0) setTextValue(dispatch.draft);
-  }, []);
-  const updateWPM = () => {
+
+  const updateWPM = React.useCallback(() => {
     const words = TextValue.replace(initialText, "")
       .split(" ")
       .filter((word) => word !== "" && word !== " ");
+
     const elapsedTime = (new Date().getTime() - startTime) / 1000 / 60;
     const currentWPM = words.length / elapsedTime;
 
     setWPM(isFinite(currentWPM) ? Math.floor(currentWPM) : 0);
-  };
+  }, [TextValue]);
+
   React.useEffect(() => {
-    FluxDispatcher.subscribe("DRAFT_CHANGE", updateTextValue);
-    FluxDispatcher.subscribe("DRAFT_SAVE", updateTextValue);
+    fluxDispatcher.subscribe("DRAFT_CHANGE", updateTextValue);
+    fluxDispatcher.subscribe("DRAFT_SAVE", updateTextValue);
     return () => {
-      FluxDispatcher.unsubscribe("DRAFT_CHANGE", updateTextValue);
-      FluxDispatcher.unsubscribe("DRAFT_SAVE", updateTextValue);
+      fluxDispatcher.unsubscribe("DRAFT_CHANGE", updateTextValue);
+      fluxDispatcher.unsubscribe("DRAFT_SAVE", updateTextValue);
     };
   });
 
   React.useEffect(() => {
+    const interval = setInterval(() => {
+      if (startTime != null) updateWPM();
+    }, 1000);
+
     if (TextValue.trim().length > 0 && !startTime) {
       setInitialText(TextValue);
       setStartTime(new Date().getTime() - 1000);
-    } else if (TextValue.trim().length === 0 && startTime) {
+      return;
+    }
+
+    if (TextValue.trim().length === 0 && startTime) {
       setStartTime(null);
       setWPM(0);
-    } else if (startTime != null) {
-      updateWPM();
+      return;
     }
-    const interval = setInterval(() => {
-      if (startTime != null) {
-        updateWPM();
-      }
-    }, 1000);
+
+    if (startTime != null) updateWPM();
 
     return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
+      if (interval) clearInterval(interval);
     };
   }, [TextValue, startTime]);
 
   React.useEffect(() => {
-    setShouldShow(
-      Boolean(
-        channel.isDM() ||
-          channel.isGroupDM() ||
-          Modules.PermissionStore.canBasicChannel(
-            DiscordConstants.Permissions.SEND_MESSAGES,
-            channel,
-          ),
-      ),
+    const isDM = channel.isDM();
+    const isGroupDM = channel.isGroupDM();
+    const canSendMessages = PermissionStore.canBasicChannel(
+      constants.Permissions.SEND_MESSAGES,
+      channel,
     );
+    setShouldShow(isDM || isGroupDM || canSendMessages);
   }, [channel.id]);
 
+  if (!shouldShow) return;
+
   return (
-    shouldShow && (
-      <div className="wpm-counter">
-        <Text.Eyebrow>WPM: {isFinite(wpm) ? Math.floor(wpm) : 0}</Text.Eyebrow>
-      </div>
-    )
+    <div className="wpm-counter">
+      <Text variant="eyebrow">WPM: {isFinite(wpm) ? Math.floor(wpm) : 0}</Text>
+    </div>
   );
 });
 
-export default (
+export const _WPM = (
   props: {
     channel: Types.Channel;
   } & Record<string, unknown>,
-) => Modules?.PermissionStore && Modules?.DraftStore && <WordsPerMinute {...props} />;
+) => <WordsPerMinute {...props} />;

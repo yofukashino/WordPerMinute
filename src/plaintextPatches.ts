@@ -1,16 +1,15 @@
-import Types from "./types";
+import Types from "@Types";
 
 export default [
   {
     find: ".typingDots,",
     replacements: [
       {
-        match: /(channelId:.\.id}\))]/,
-        replace: (_: string, prefix: string) =>
-          `${prefix},replugged.plugins.getExports("dev.yofukashino.WordPerMinute")?._WPM?.(arguments[0])]`,
+        match: /(channel:\i,isThreadCreation:\i}\))]/,
+        replace: (_: string, prefix: string) => `${prefix},$exports?._WPM?.(arguments[0])]`,
       },
       {
-        match: /\),(0===.\.length)/,
+        match: /\),(0===\i\.length)/,
         replace: (_: string, suffix: string) => `),!arguments?.[0]?.channel?.id&&${suffix}`,
       },
     ],

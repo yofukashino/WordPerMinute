@@ -1,11 +1,7 @@
-div:has(.wpm-counter):has(> [class^="cooldownWrapper"]) .wpm-counter {
-  margin-left: 5px;
-}
 .wpm-counter {
-  margin-right: 5px;
+  margin-right: var(--space-12);
   flex-basis: fit-content;
   align-items: center;
   display: flex;
   margin-left: auto;
-  right: 0px;
 }
