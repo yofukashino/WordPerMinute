@@ -65,7 +65,7 @@ export const WordsPerMinute = React.memo(({ channel }: { channel: Types.Channel 
   React.useEffect(() => {
     const isDM = channel.isDM();
     const isGroupDM = channel.isGroupDM();
-    const canSendMessages = PermissionStore.canBasicChannel(
+    const canSendMessages = PermissionStore.canBasicChannel?.(
       constants.Permissions.SEND_MESSAGES,
       channel,
     );
